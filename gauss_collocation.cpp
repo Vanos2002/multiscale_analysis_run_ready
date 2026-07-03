@@ -1,9 +1,8 @@
-// THIS CODE WAS CREATED ON THURSDAY JUNE 4, 2026
 // THIS FILE COMPARES THE Feireisl-TUCKERWILL 4.5PN EXPRESSIONS USING AN IMPLICIT GAUSS COLLOCATION INTEGRATOR
 
 // From the article "Residual eccentricity of inspiralling orbits at the gravitational-wave detection threshold: Accurate estimates using post-Newtonian theory"
 // by Alexandria Tucker and Clifford M. Will (arXiv:2108.12210v2 [gr-qc] 15 Nov 2021)
-// We compare the transformed 4.5PN contributions of dp/dtheta and de/dtheta from the Feireisl-Tucker-Will (FTW) paper against the numerical orbit-averaged QLT results
+// We compare the transformed 4.5PN contributions of dp/dtheta and de/dtheta from the Feireisl-Tucker-Will (FTW) paper against the numerical QLT results
 
 #include <iostream>
 #include <fstream>
