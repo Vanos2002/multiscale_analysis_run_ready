@@ -1367,11 +1367,6 @@ struct RHSFractionalDiffRow {
     double frac_tw;
 };
 
-// QLT orbit-averaging controls.
-// Keep this enabled to compare against orbit-averaged QLT dynamics.
-constexpr bool kUseOrbitAveragedQLTRHS = true;
-constexpr int kQLTOrbitAverageSamples = 16384;
-
 static int mapSecularOrderToQLTOrder(int max_PN_order) {
     if (max_PN_order <= 2) {
         return max_PN_order;
@@ -1382,54 +1377,10 @@ static int mapSecularOrderToQLTOrder(int max_PN_order) {
     return 3;
 }
 
-SecularRHS compute_QLT_RHS_orbit_averaged(const BinaryState& state,
-                                          const PhysicalParams& params,
-                                          int max_PN_order,
-                                          int sample_count) {
-    static const PNCoeffs K = buildCoefficients(true);
-
-    int qlt_order = mapSecularOrderToQLTOrder(max_PN_order);
-    int samples = std::max(16, sample_count);
-    double dphi = 2.0 * PI / static_cast<double>(samples);
-
-    double sum_dp = 0.0;
-    double sum_dalpha = 0.0;
-    double sum_dbeta = 0.0;
-
-    // Midpoint quadrature over one full orbit: <f> = (1/2pi) int_0^{2pi} f(phi) dphi.
-    for (int i = 0; i < samples; ++i) {
-        double phi = (static_cast<double>(i) + 0.5) * dphi;
-        QLTrhs qlt = computeQLT(
-            K,
-            state.p,
-            state.alpha,
-            state.beta,
-            phi,
-            1.0 / params.eps,
-            qlt_order
-        );
-        sum_dp += qlt.dp;
-        sum_dalpha += qlt.dalpha;
-        sum_dbeta += qlt.dbeta;
-    }
-
-    double inv_samples = 1.0 / static_cast<double>(samples);
-    return {
-        sum_dp * inv_samples,
-        sum_dalpha * inv_samples,
-        sum_dbeta * inv_samples
-    };
-}
-
 SecularRHS compute_QLT_RHS_phi(const BinaryState& state,
                                const PhysicalParams& params,
                                int max_PN_order,
                                double phi) {
-    if (kUseOrbitAveragedQLTRHS) {
-        (void)phi;
-        return compute_QLT_RHS_orbit_averaged(state, params, max_PN_order, kQLTOrbitAverageSamples);
-    }
-
     static const PNCoeffs K = buildCoefficients(true);
 
     // Evaluate the exact instantaneous QLT equations at the current phi.
