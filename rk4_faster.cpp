@@ -2133,9 +2133,8 @@ std::vector<DeltaPhiRow> computeDeltaPhiVsEpsilonScan(
 ) {
     // Integrate directly in phi and stop on p crossing.
     const double phi_min_step = 1e-10;
-    const double phi_max_step = 1e6;
-    const long double integration_max_steps = 10000000;
-    AdaptiveRK4Integrator integrator(tolerance, phi_min_step, phi_max_step, integration_max_steps);
+    const double phi_max_step_default = 1e8;
+    const long double integration_max_steps_default = 50000000;
 
     std::vector<DeltaPhiRow> rows;
     rows.reserve(epsilon_values.size());
@@ -2144,8 +2143,8 @@ std::vector<DeltaPhiRow> computeDeltaPhiVsEpsilonScan(
               << " -> " << p_final << ") ==="  << std::endl;
     std::cout << "[scan config] tol=" << std::scientific << std::setprecision(1)
               << tolerance
-              << ", phi_max_step=" << phi_max_step
-              << ", max_steps=" << integration_max_steps
+              << ", phi_max_step_default=" << phi_max_step_default
+              << ", max_steps_default=" << integration_max_steps_default
               << std::defaultfloat << std::endl;
 
     for (size_t idx = 0; idx < epsilon_values.size(); ++idx) {
@@ -2153,8 +2152,27 @@ std::vector<DeltaPhiRow> computeDeltaPhiVsEpsilonScan(
         PhysicalParams p = base_params;
         p.eps = eps;
 
+        // Extremely small eps requires huge phase spans to reach p_final; relax local
+        // error control and raise limits for the tail of the epsilon scan.
+        double local_tolerance = tolerance;
+        double local_phi_max_step = phi_max_step_default;
+        long double local_max_steps = integration_max_steps_default;
+        if (eps <= 0.03125) {
+            local_tolerance = std::max(tolerance, 1e-6);
+            local_phi_max_step = 1e10;
+            local_max_steps = 200000000;
+        } else if (eps <= 0.0625) {
+            local_tolerance = std::max(tolerance, 3e-7);
+            local_phi_max_step = 1e9;
+            local_max_steps = 100000000;
+        }
+        AdaptiveRK4Integrator integrator(local_tolerance, phi_min_step, local_phi_max_step, local_max_steps);
+
         std::cout << "[progress] eps index " << (idx + 1) << "/" << epsilon_values.size()
                   << " (eps=" << std::scientific << std::setprecision(4) << eps << ")"
+                  << ", local_tol=" << std::scientific << std::setprecision(1) << local_tolerance
+                  << ", local_phi_max_step=" << std::scientific << std::setprecision(1) << local_phi_max_step
+                  << ", local_max_steps=" << std::scientific << std::setprecision(1) << static_cast<double>(local_max_steps)
                   << std::defaultfloat << std::endl;
 
         // ── QLT: physical-state p-driven solve to p_final ───────────────────
@@ -2329,7 +2347,7 @@ std::vector<DeltaPhiRow> computeDeltaPhiVsEpsilonScan(
                   << std::defaultfloat << std::endl;
 
           std::cout << std::scientific << std::setprecision(16)
-                << "    [p-driven progress] p_phys(QLT/F/TW)=" << p_qlt_at_phi_ref
+                << "    [progress] p_phys(QLT/F/TW)=" << p_qlt_at_phi_ref
                 << "/" << p_feireisl_at_phi_ref
                 << "/" << p_tw_at_phi_ref
                 << " | progress(QLT/F/TW)=" << progress_qlt
