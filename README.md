@@ -32,18 +32,20 @@ $$
 
 ## Description of each file
 
-gauss_collocation.cpp - Comparison of the Feireisl-TW convergence to QLT for a respective epsilon value, the integration is performed via the implicit Gauss collocation method, implemented in C++
+## Description of Each File
 
-gauss_collocation_faster.cpp - Fix of the "gauss_collocation.cpp" using the orbit-averaged QLT, the results of this work for the implicit Gauss collocation method were obtained via this file, implemented in C++
+- gauss_collocation.cpp: Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with the implicit Gauss collocation method (C++).
 
-rk4_adaptive.cpp - Comparison of the Feireisl-TW convergence to QLT for a respective epsilon value, the integration is performed via the explicit Runge Kutta 4th order adaptive method, implemented in C++
+- gauss_collocation_faster.cpp: Optimized version of gauss_collocation.cpp using orbit-averaged QLT. The reported implicit Gauss collocation results were produced from this implementation (C++).
 
-rk4_faster.cpp - Fix of the "rk4_adaptive.cpp" using the orbit-averaged QLT, the results of this work for the explicit Runge Kutta 4th order adaptive method were obtained via this file, implemented in C++
+- rk4_adaptive.cpp: Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with an adaptive explicit Runge-Kutta 4 method (C++).
 
-gauss_collocation_faster_output.md - copied output of the file "gauss_collocation_faster.cpp", note the output did not finish entirely
+- rk4_faster.cpp: Optimized version of rk4_adaptive.cpp using orbit-averaged QLT. The reported adaptive RK4 results were produced from this implementation (C++).
 
-rk4_faster_output.md - copied output of the file "rk4_faster.cpp", note the output did not finish entirely
+- gauss_collocation_faster_output.md: Captured output from gauss_collocation_faster.cpp. The run did not complete all scan points.
 
-no_average_output.md - copied output of the file "rk4_adaptive.cpp" for comparison with rk4_faster_output.md, note the output did not finish entirely
+- rk4_faster_output.md: Captured output from rk4_faster.cpp. The run did not complete all scan points.
 
-summary.md - description of the fixes that were implemented to the files "gauss_collocation.cpp" and "rk4_adaptive.cpp" to form "gauss_collocation_faster.cpp" and "rk4_faster.cpp"
+- no_average_output.md: Captured output from rk4_adaptive.cpp, used as a non-orbit-averaged reference for comparison against rk4_faster_output.md. The run did not complete all scan points.
+
+- summary.md: Summary of the changes applied to gauss_collocation.cpp and rk4_adaptive.cpp to produce gauss_collocation_faster.cpp and rk4_faster.cpp.
