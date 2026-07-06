@@ -30,8 +30,6 @@ $$
 | 0.031250 | 7.8880138610e-03 | 7.8880139116e-03 | Feireisl |
 
 
-## Description of each file
-
 ## Description of Each File
 
 - [gauss_collocation.cpp](gauss_collocation.cpp): Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with the implicit Gauss collocation method (C++).
@@ -49,3 +47,23 @@ $$
 - [no_average_output.md](no_average_output.md): Captured output from rk4_adaptive.cpp, used as a non-orbit-averaged reference for comparison against rk4_faster_output.md. The run did not complete all scan points.
 
 - [summary.md](summary.md): Summary of the changes applied to gauss_collocation.cpp and rk4_adaptive.cpp to produce gauss_collocation_faster.cpp and rk4_faster.cpp.
+
+## Requirements for code compliation/run
+
+### C++ (required)
+- Compiler: Clang or GCC
+- Minimum language standard: C++11
+- Platform: POSIX-compatible OS (macOS/Linux), due to use of `unistd.h` and `sys/wait.h`
+
+### Python (required for plotting)
+- Python: 3.8+ (recommended)
+- Required packages:
+  - `matplotlib`
+  - `numpy`
+
+### Optional dependency
+- `gnuplot` (used when available for one plotting path; `matplotlib` fallback is implemented)
+
+### Notes
+- Core numerical integration runs entirely in C++.
+- Python dependencies are needed only for plot generation.
