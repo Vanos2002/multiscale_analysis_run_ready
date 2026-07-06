@@ -8,7 +8,7 @@ $$
 
 ## RK4 Adaptive
 
-| $\epsilon$ | $\alpha_{\mathrm{Feireisl}}$ | $\alpha_{\mathrm{TW}}$ | Winner |
+| $\epsilon$ | Feireisl | TW | Winner |
 |:---:|:---:|:---:|:---:|
 | 1.000000 | 9.8437079270e-01 | 9.8437079282e-01 | Feireisl |
 | 0.500000 | 6.4377337646e-01 | 6.4377337653e-01 | Feireisl |
@@ -20,7 +20,7 @@ $$
 
 ## Implicit Gauss Collocation
 
-| $\epsilon$ | $\alpha_{\mathrm{Feireisl}}$ | $\alpha_{\mathrm{TW}}$ | Winner |
+| $\epsilon$ | Feireisl | TW | Winner |
 |:---:|:---:|:---:|:---:|
 | 1.000000 | 9.8437081252e-01 | 9.8437081265e-01 | Feireisl |
 | 0.500000 | 6.4377399480e-01 | 6.4377399489e-01 | Feireisl |
