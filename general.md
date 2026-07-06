@@ -6,7 +6,7 @@ $$
 \alpha_{method} = \left|\frac{\phi_{method} - \phi_{QLT}}{\phi_{QLT}}\right|
 $$
 
-## RK4 Adaptive
+<div align="center"><strong>RK4 Adaptive</strong></div>
 
 | $\epsilon$ | $\alpha_{\mathrm{Feireisl}}$ | $\alpha_{\mathrm{TW}}$ | Winner |
 |---:|---:|---:|:---|
@@ -16,10 +16,11 @@ $$
 | 0.125000 | 1.2602625825e-01 | 1.2602625943e-01 | Feireisl |
 | 0.062500 | 3.1611652121e-02 | 3.1611652093e-02 | TW |
 | 0.031250 | 7.8915718944e-03 | 7.8915718911e-03 | TW |
+| 0.015625 | 1.9913630387e-03 | 1.9913630605e-03 | Feireisl |
 
-## Implicit Gauss Collocation
+<div align="center"><strong>Implicit Gauss Collocation</strong></div>
 
-| $$\epsilon$$ | $$\alpha_{\mathrm{Feireisl}}$$ | $$\alpha_{\mathrm{TW}}$$ | Winner |
+| $\epsilon$ | $\alpha_{\mathrm{Feireisl}}$ | $\alpha_{\mathrm{TW}}$ | Winner |
 |---:|---:|---:|:---|
 | 1.000000 | 9.8437081252e-01 | 9.8437081265e-01 | Feireisl |
 | 0.500000 | 6.4377399480e-01 | 6.4377399489e-01 | Feireisl |
