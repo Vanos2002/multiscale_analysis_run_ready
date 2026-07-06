@@ -42,13 +42,6 @@ Effective per-epsilon overrides:
 
 Note: local_tolerance is computed as max(base_tolerance, threshold), so the table values are the effective tolerances for this run.
 
-## File-Specific Output
-
-| File | Integrator mode printed in main | Output plot |
-|---|---|---|
-| what.cpp | Adaptive RK4 Integration Comparison | delta_phi_vs_epsilon_p50top20_fromcpp_rk4.png |
-| what_gauss_collocation.cpp | Adaptive Implicit Gauss Collocation Integration Comparison | delta_phi_vs_epsilon_p50top20_fromcpp_gauss.png |
-
 ## Model Treatment (Both Files)
 
 - QLT is integrated directly in physical variables.
