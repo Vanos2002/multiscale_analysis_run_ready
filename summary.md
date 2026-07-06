@@ -105,18 +105,36 @@ A $p$-driven reformulation was also tested and rejected for this regime due to i
 
 Using corrected bookkeeping, orbit-averaged QLT, and adaptive tolerances:
 
-| $\epsilon$ | $\phi_{QLT}$ | $\phi_{Feireisl}$ | $\phi_{TW}$ | $\phi_{QLT}/\phi_{Feireisl}$ | $\left|\frac{\phi_{QLT}}{\phi_{Feireisl}}-1\right|$ |
-|---:|---:|---:|---:|---:|---:|
-| 1.0 | 2,560.43 | 40.018 | 40.018 | 63.983 | 62.983 |
-| 0.5 | 67,225.2 | 23,947.4 | 23,947.4 | 2.807 | 1.807 |
-| 0.25 | 2,049,208.5 | 2,827,698.6 | 2,827,698.6 | 0.7247 | 0.2753 |
-| 0.125 | 64,788,486.0 | 72,953,536.4 | 72,953,536.5 | 0.8881 | 0.1119 |
-| 0.0625 | 2,067,014,230.5 | 2,132,355,965.3 | 2,132,355,965.3 | 0.9694 | 0.0306 |
-| 0.03125 | 66,105,303,124.5 | 66,626,977,876.7 | 66,626,977,876.5 | 0.9922 | 0.0078 |
+# Relative Phi Differences (to QLT)
 
-At smaller $\epsilon$, contraction of $\left|\mathrm{ratio}-1\right|$ approaches the expected $\epsilon^2$ trend.
+Formula used:
 
-Feireisl and Tucker-Will remain numerically indistinguishable for this observable (phase required for $p:50\rightarrow20$) across tested points, despite differing 4.5PN coefficients.
+$$
+\alpha_{method} = \left|\frac{\phi_{method} - \phi_{QLT}}{\phi_{QLT}}\right|
+$$
+
+## Explicit RK4 Adaptive Integration Method
+
+| $\epsilon$ | Feireisl | TW | Winner |
+|:---:|:---:|:---:|:---:|
+| 1.000000 | 9.8437079270e-01 | 9.8437079282e-01 | Feireisl |
+| 0.500000 | 6.4377337646e-01 | 6.4377337653e-01 | Feireisl |
+| 0.250000 | 3.7989793583e-01 | 3.7989793617e-01 | Feireisl |
+| 0.125000 | 1.2602625825e-01 | 1.2602625943e-01 | Feireisl |
+| 0.062500 | 3.1611652121e-02 | 3.1611652093e-02 | TW |
+| 0.031250 | 7.8915718944e-03 | 7.8915718911e-03 | TW |
+| 0.015625 | 1.9913630387e-03 | 1.9913630605e-03 | Feireisl |
+
+## Implicit Gauss Collocation Integration Method
+
+| $\epsilon$ | Feireisl | TW | Winner |
+|:---:|:---:|:---:|:---:|
+| 1.000000 | 9.8437081252e-01 | 9.8437081265e-01 | Feireisl |
+| 0.500000 | 6.4377399480e-01 | 6.4377399489e-01 | Feireisl |
+| 0.250000 | 3.7987645793e-01 | 3.7987645866e-01 | Feireisl |
+| 0.125000 | 1.2603365354e-01 | 1.2603365351e-01 | TW |
+| 0.062500 | 3.1610512046e-02 | 3.1610512036e-02 | TW |
+| 0.031250 | 7.8880138610e-03 | 7.8880139116e-03 | Feireisl |
 
 ## Conclusion
 
