@@ -1,61 +1,63 @@
-# Feireisl–Tucker-Will 4.5PN Comparison: Investigation Summary
+# Feireisl-Tucker-Will 4.5PN Comparison: Investigation Summary
 
-**Context:** Code comparing three formulations of post-Newtonian binary inspiral dynamics — a numerical "exact" osculating reference (**QLT**), and two competing analytic secular (orbit-averaged) formulas that disagree only at 4.5PN order in the radiation-reaction sector (**Feireisl** vs. **Tucker-Will**), per [arXiv:2108.12210](https://arxiv.org/abs/2108.12210) (Tucker & Will, 2021). The test system: equal masses (η=0.25), initial eccentricity e≈0.14 (α=β=0.1), semi-latus rectum p sweeping from 50 → 20, across a scan of the PN bookkeeping parameter ε from 1.0 down to 0.0039 (halved 9 times).
+## Context
 
-The question driving this investigation: **how much phase (φ) does each method predict is needed to sweep p from 50 to 20, and do the three methods agree as ε → 0 (as proper PN convergence requires)?**
+This analysis compares three formulations of post-Newtonian binary inspiral dynamics:
 
----
+- QLT: numerical osculating reference solution
+- Feireisl: analytic secular (orbit-averaged) model
+- Tucker-Will: analytic secular model
 
-## 1. Initial problem: brute-force QLT is computationally infeasible
+The two analytic models differ only in the 4.5PN radiation-reaction sector (Tucker and Will, 2021, [arXiv:2108.12210](https://arxiv.org/abs/2108.12210)).
 
-The original code integrates QLT's *exact instantaneous* (osculating) equations of motion phi-step by phi-step, which requires resolving orbital-period oscillations directly. This throughput is fundamentally capped by how finely a single orbit must be resolved — independent of how the step-size cap is configured.
+Test configuration:
 
-| ε | Δp probed | measured/estimated wall-clock (brute-force QLT) |
-|---|---|---|
-| 1.0 | 30 (full range) | 28.3 s |
-| 0.5 | 1 | 21.6 s → full range extrapolated to **~9.6 hours** |
-| 0.25 | 1 | >250 s and still incomplete → full range: **days+** |
+- Equal masses with $\eta = 0.25$
+- Initial $(\alpha,\beta) = (0.1,0.1)$, so $e \approx 0.14$
+- Semi-latus rectum range: $p: 50 \rightarrow 20$
+- PN bookkeeping parameter scan: $\epsilon = 1.0$ down to $\epsilon = 0.0039$ by repeated halving
 
-Root cause: the number of orbits needed to sweep a *fixed* Δp grows roughly as ε⁻⁵ (see §3), while resolving each individual orbit has a roughly fixed cost — so total cost explodes combinatorially as ε shrinks. This makes the literal 9-point ε scan computationally impossible via brute force.
+Primary observable: total phase $\phi$ required to evolve from $p=50$ to $p=20$.
 
----
+## 1. Initial Limitation: Direct QLT Integration Cost
 
-## 2. Speed levers validated (no accuracy loss)
+Direct integration of instantaneous QLT equations requires explicit resolution of orbital-scale oscillations. Runtime increases rapidly as $\epsilon$ decreases.
 
-Two "free" speedups were confirmed empirically before touching the algorithm itself:
+| $\epsilon$ | $\Delta p$ evaluated | brute-force QLT wall-clock |
+|---:|---:|---:|
+| 1.0 | 30 | 28.3 s |
+| 0.5 | 1 | 21.6 s (full-range extrapolation: ~9.6 h) |
+| 0.25 | 1 | >250 s (incomplete; full-range extrapolation: days+) |
 
-- **Step-size cap:** the code's original 1e-3 cap on Δφ per step was far more conservative than needed. Relaxing it (e.g. to 0.5 for QLT, ≥50 for the smooth secular equations) reproduced the literal-cap answer to **7+ significant figures** at 5–100× less wall-clock. Pushing the cap further gave *no additional benefit* once above a modest threshold — confirming that **tolerance, not the step cap, is the true bottleneck** (e.g. secular integration was identical at max_step=50 and max_step=5,000,000: 68.0 s vs. 68.5 s, bit-for-bit consistent answer).
-- **Tolerance:** loosening 1e-14 → 1e-9 preserved 6–9+ significant figures while giving 2–30× speedup depending on context (bigger win on the oscillatory QLT side). Later runs used an adaptive schedule — tightest tolerance for large ε, progressively loosened (1e-9 → 3e-7 → 1e-6) for the smallest ε where more phase must be covered — which is the right way to spend a fixed accuracy budget.
+The dominant scaling is consistent with an $\epsilon^{-5}$ growth in orbit count for fixed $\Delta p$, with near-constant per-orbit numerical cost.
 
----
+## 2. Runtime Controls Verified Before Model Changes
 
-## 3. The correctness bug: `dtheta_dphi`
+Two controls were validated independently of any physics change:
 
-**Diagnostic method:** rather than running full (expensive) trajectories, average QLT's exact instantaneous RHS over one orbit at a *fixed* (p, α, β) via cheap quadrature (spectrally accurate for this periodic, band-limited system — 8 quadrature points matched a 4000-point reference to 10+ significant figures), and compare that single evaluation to Feireisl/TW's secular RHS at the same point. This isolates the bookkeeping question from integration cost entirely.
+- Step-size cap: relaxing very conservative $\Delta\phi$ caps produced the same solution (to 7+ significant figures) with substantial runtime reduction.
+- Tolerance: loosening from $10^{-14}$ to $10^{-9}$ preserved solution accuracy at the relevant scale while reducing runtime significantly.
 
-**Finding, as originally coded** (`dtheta_dphi = params.eps`):
+An adaptive tolerance schedule ($10^{-9}\rightarrow 3\times10^{-7}\rightarrow10^{-6}$ toward smaller $\epsilon$) provided efficient cost allocation.
 
-| ε | ratio (QLT-avg / Feireisl-secular) |
-|---|---|
-| 1.0 | 0.0160 |
-| 0.5 | 0.361 |
-| 0.0625 | 0.514×10⁻² (continuing pattern) |
-| 0.00098 (2⁻¹⁰) | consistent with pure 1/ε |
+## 3. Consistency Error in $\mathrm{d}\theta/\mathrm{d}\phi$
 
-The ratio **diverges as exactly 1/ε** — doubling every halving of ε, confirmed cleanly over 10+ orders of magnitude. This is the opposite of what a valid PN expansion should do (agreement should *improve*, not worsen, as the small parameter shrinks).
+A pointwise diagnostic was used: orbit-average the instantaneous QLT RHS at fixed state and compare directly against analytic secular RHS at the same point.
 
-**Root cause, confirmed via power-law fit of the underlying rates themselves:**
+With the original implementation (`dtheta_dphi = eps`), the QLT/secular ratio scaled as $1/\epsilon$, i.e., divergence as $\epsilon \to 0$.
+
+Measured scaling of underlying rates:
 
 | quantity | fitted scaling |
 |---|---|
-| QLT orbit-averaged dp/dφ | **ε⁵** (ratio between successive halvings → exactly 32 = 2⁵) |
-| Feireisl/TW secular dp/dφ (as coded) | **ε⁶** (ratio between successive halvings → exactly 64 = 2⁶) |
+| orbit-averaged QLT $\mathrm{d}p/\mathrm{d}\phi$ | $\epsilon^5$ |
+| secular $\mathrm{d}p/\mathrm{d}\phi$ (as coded) | $\epsilon^6$ |
 
-`secular_2_5PN` / `secular_3_5PN` / `secular_4_5PN` already carry the correct explicit ε⁵/ε⁷/ε⁹ prefactors. Multiplying the result by `dtheta_dphi = ε` again adds one spurious extra power of ε — a double-counted small parameter, not a tuning issue.
+Interpretation: an extra factor of $\epsilon$ was introduced by multiplying secular terms that already carried the correct PN-order $\epsilon$ prefactors.
 
----
+## 4. Corrective Change
 
-## 4. The fix
+Applied change:
 
 ```cpp
 static double compute_dtheta_dphi(const BinaryState& state,
@@ -66,15 +68,11 @@ static double compute_dtheta_dphi(const BinaryState& state,
 }
 ```
 
-θ and φ are the same angular variable here; the secular coefficients already carry the correct ε-power for each PN order, so no additional conversion factor belongs in this function.
+With this correction, pointwise ratio residuals contract as $\epsilon^2$, consistent with expected next-order behavior.
 
-**Validation (pointwise check, with fix applied):** ratio → 1 with residual shrinking as **ε²** (shrink factor of ~4 per halving) cleanly from ε=0.25 down to ε=0.00098 — exactly the signature of a legitimate next-order (3.5PN-relative-to-2.5PN) correction, not a bug.
+## 5. Structural Acceleration: Orbit-Averaged QLT
 
----
-
-## 5. The structural speed fix: orbit-averaged QLT
-
-Once the physics only needs the *secular* (orbit-averaged) behavior, there's no reason to brute-force resolve every orbit. Average the exact instantaneous QLT RHS over one orbit via cheap quadrature, then hand the result to the same large-step integrator used for Feireisl/TW:
+To target secular behavior directly, QLT RHS was orbit-averaged (midpoint quadrature, $N=8$) and integrated with the same large-step framework used for Feireisl/TW.
 
 ```cpp
 SecularRHS compute_QLT_RHS_orbit_averaged(const BinaryState& state,
@@ -83,7 +81,7 @@ SecularRHS compute_QLT_RHS_orbit_averaged(const BinaryState& state,
                                           int quadrature_points = 8) {
     SecularRHS avg = {0.0, 0.0, 0.0};
     for (int i = 0; i < quadrature_points; ++i) {
-        double phi = 2.0*PI*(i + 0.5) / quadrature_points;   // midpoint rule
+        double phi = 2.0*PI*(i + 0.5) / quadrature_points;
         auto rhs = compute_QLT_RHS_phi(state, params, max_PN_order, phi);
         avg[0] += rhs[0]; avg[1] += rhs[1]; avg[2] += rhs[2];
     }
@@ -93,24 +91,22 @@ SecularRHS compute_QLT_RHS_orbit_averaged(const BinaryState& state,
 }
 ```
 
-**Validated speedup** (measured, not estimated):
+Observed runtime impact:
 
-| ε | brute-force QLT | orbit-averaged QLT | speedup |
-|---|---|---|---|
-| 1.0 | 28.3 s | 3.9 s | 7.3× |
-| 0.5 | ~9.6 hours (extrapolated) | 23.0 s | ~1,500× |
-| 0.25 | days+ (never completed) | 165 s | >>1,000× |
+| $\epsilon$ | brute-force QLT | orbit-averaged QLT | speedup |
+|---:|---:|---:|---:|
+| 1.0 | 28.3 s | 3.9 s | 7.3x |
+| 0.5 | ~9.6 h (extrapolated) | 23.0 s | ~1500x |
+| 0.25 | incomplete (days-scale extrapolated) | 165 s | >1000x |
 
-**Caution — an alternative "integrate w.r.t. p instead of φ" reformulation was tried and hit a real numerical wall.** Since Δp=30 is fixed regardless of ε (unlike Δφ), this is an appealing idea, but it requires dividing by dp/dφ (to get dφ/dp), and dp/dφ *is exactly the quantity that shrinks as εⁿ* — so the reciprocal blows up right where the physics gets small. By ε≈0.03, the starting dp/dφ was already sitting on top of the regularization floor, causing outright integration failures (`stop_reason=min_step`) rather than just slowness. Keeping φ as the independent variable avoids this, since dp/dφ only ever appears in the numerator.
+A $p$-driven reformulation was also tested and rejected for this regime due to instability from division by small $\mathrm{d}p/\mathrm{d}\phi$.
 
----
+## 6. Final Numerical Behavior
 
-## 6. Final validated results
+Using corrected bookkeeping, orbit-averaged QLT, and adaptive tolerances:
 
-With the fix applied, QLT orbit-averaged (N=8 quadrature points), and an adaptive tolerance schedule (1e-9 tightening to 1e-6 for the smallest ε):
-
-| ε | φ_QLT | φ_Feireisl | φ_TW | ratio QLT/Feireisl | \|ratio−1\| |
-|---|---|---|---|---|---|
+| $\epsilon$ | $\phi_{QLT}$ | $\phi_{Feireisl}$ | $\phi_{TW}$ | $\phi_{QLT}/\phi_{Feireisl}$ | $\left|\frac{\phi_{QLT}}{\phi_{Feireisl}}-1\right|$ |
+|---:|---:|---:|---:|---:|---:|
 | 1.0 | 2,560.43 | 40.018 | 40.018 | 63.983 | 62.983 |
 | 0.5 | 67,225.2 | 23,947.4 | 23,947.4 | 2.807 | 1.807 |
 | 0.25 | 2,049,208.5 | 2,827,698.6 | 2,827,698.6 | 0.7247 | 0.2753 |
@@ -118,20 +114,10 @@ With the fix applied, QLT orbit-averaged (N=8 quadrature points), and an adaptiv
 | 0.0625 | 2,067,014,230.5 | 2,132,355,965.3 | 2,132,355,965.3 | 0.9694 | 0.0306 |
 | 0.03125 | 66,105,303,124.5 | 66,626,977,876.7 | 66,626,977,876.5 | 0.9922 | 0.0078 |
 
-**Shrink factor of |ratio−1| between successive rows:** 34.9, 6.6, 2.5, **3.7, 3.9** — settling cleanly onto the expected ε² asymptote (shrink factor 4) after an initial transient at large ε, where higher PN orders still contribute non-negligibly. Extrapolating the pattern: ε=0.015625, 0.0078125, 0.00390625 should land around ratio ≈ 0.998, 0.9995, 0.9999.
+At smaller $\epsilon$, contraction of $\left|\mathrm{ratio}-1\right|$ approaches the expected $\epsilon^2$ trend.
 
-**Feireisl vs. Tucker-Will:** ratio = 1.0000000 to 8–10 significant figures at *every* ε tested. The disputed 4.5PN term makes negligible difference to this particular observable (total phase to sweep this p-range) — both formulas are numerically indistinguishable here even though their coefficients differ.
+Feireisl and Tucker-Will remain numerically indistinguishable for this observable (phase required for $p:50\rightarrow20$) across tested points, despite differing 4.5PN coefficients.
 
----
+## Conclusion
 
-## 7. Recommendations
-
-1. **Apply the `dtheta_dphi = 1.0` fix.** This is a correctness issue, not a performance one — without it, the comparison is measuring a numerical artifact, not the physics being disputed.
-2. **Use orbit-averaged QLT** (8-point quadrature is sufficient) instead of brute-force phi-stepping. This is what makes the ε-scan tractable at all for ε ≲ 0.25.
-3. **Keep φ as the independent variable.** A p-driven reformulation is tempting (fixed Δp) but the 1/(dp/dφ) reciprocal fails exactly when ε is small — which is exactly the regime you need it to work in.
-4. **Loosen tolerance adaptively** (tighter for large ε, looser — e.g. 1e-6 — for the smallest ε where more phase must be covered). Validated to cost negligible accuracy for large speed gains.
-5. **Don't over-tune the step-size cap.** Once past a modest threshold, tolerance is the real bottleneck; further cap relaxation does nothing.
-
----
-
-*Summary compiled from an interactive debugging/investigation session comparing brute-force vs. orbit-averaged QLT integration, diagnosing and fixing a θ→φ bookkeeping bug, and validating the resulting convergence behavior across a 256× range of the PN expansion parameter ε.*
+The observed non-convergence originated from a bookkeeping inconsistency in $\mathrm{d}\theta/\mathrm{d}\phi$, not from the disputed 4.5PN physics term. After correction and secularized QLT evaluation, convergence behavior is consistent with PN expectations, and Feireisl/TW differences are negligible for the tested metric.
