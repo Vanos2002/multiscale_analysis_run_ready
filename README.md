@@ -67,3 +67,21 @@ $$
 ### Notes
 - Core numerical integration runs entirely in C++.
 - Python dependencies are needed only for plot generation.
+
+## Windows Users on a Faculty Linux Cluster
+
+If you are on Windows, use Windows only to connect to the cluster. Build and run this project on the Linux cluster nodes.
+
+### Steps
+1. Connect from Windows using SSH (Windows Terminal, PuTTY, or VS Code Remote SSH).
+2. Build on the cluster with a C++ compiler supporting C++11 or newer.
+3. Ensure Python 3.8+ is available on the cluster and install required packages (`matplotlib`, `numpy`).
+4. For headless jobs, set `MPLBACKEND=Agg` before running.
+5. Run via the scheduler (for example Slurm) or interactively, then copy outputs back to Windows (`scp` or WinSCP).
+
+### Cluster-Side Minimums
+- C++ compiler: GCC or Clang (C++11+)
+- OS: Linux (POSIX environment)
+- Python: 3.8+
+- Python packages: `matplotlib`, `numpy`
+- Optional: `gnuplot` (a `matplotlib` fallback is implemented)
