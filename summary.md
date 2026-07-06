@@ -68,7 +68,6 @@ static double compute_dtheta_dphi(const BinaryState& state,
 }
 ```
 
-With this correction, pointwise ratio residuals contract as $\epsilon^2$, consistent with expected next-order behavior.
 
 ## 5. Structural Acceleration: Orbit-Averaged QLT
 
