@@ -28,3 +28,9 @@ $$
 | 0.125000 | 1.2603365354e-01 | 1.2603365351e-01 | TW |
 | 0.062500 | 3.1610512046e-02 | 3.1610512036e-02 | TW |
 | 0.031250 | 7.8880138610e-03 | 7.8880139116e-03 | Feireisl |
+
+
+## Description of each file
+
+gauss_collocation.cpp - Comparison of the Feireisl-TW convergence to QLT for a respective epsilon value, the integration is performed via the Implicit Gauss collocation method, implemented in C++
+gauss_collocation_faster.cpp - Fix of the "gauss_collocation.cpp" using the orbit-averaged QLT, the results of this work for the Implicit Gauss collocation method were obtained via this file, implemented in C++
