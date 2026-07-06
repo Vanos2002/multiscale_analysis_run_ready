@@ -34,7 +34,7 @@ $$
 
 ## Description of Each File
 
-- gauss_collocation.cpp: Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with the implicit Gauss collocation method (C++).
+- [gauss_collocation.cpp](gauss_collocation.cpp): Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with the implicit Gauss collocation method (C++).
 
 - gauss_collocation_faster.cpp: Optimized version of gauss_collocation.cpp using orbit-averaged QLT. The reported implicit Gauss collocation results were produced from this implementation (C++).
 
