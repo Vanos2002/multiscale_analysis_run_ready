@@ -6,6 +6,10 @@ $$
 \alpha_{method} = \left|\frac{\phi_{method} - \phi_{QLT}}{\phi_{QLT}}\right|
 $$
 
+The subsequent tables compare the respective relative phi difference values for a given epsilon in the Feireisl and Tucker-Will scheme. Each table also includes a column labeled "Winner" that evaluates the smaller number between Feireisl and Tucker-Will (TW) results. Below each table is a column chart plot portraying the percentage of better convergence to QLT ("Lagrange planetary equations via  compared to the second method. We approach the problem with two ode integrators: an explicit Runge-Kutta 4th order adaptive method and an implicit Gauss collocation method.
+
+Initial parameters of the simulation + explicitly written tolerances at which the integrations were performed, are written in [init_conditions_and_run_params.md](init_conditions_and_run_params.md).
+
 ## Explicit RK4 Adaptive Integration Method
 
 | $\epsilon$ | Feireisl | TW | Winner |
@@ -44,7 +48,7 @@ $$
 
 - [rk4_faster.cpp](rk4_faster.cpp): Optimized version of rk4_adaptive.cpp using orbit-averaged QLT. The reported adaptive RK4 results were produced from this implementation (C++).
 
-- [init_conditions_and_run_params.md](init_conditions_and_run_params.md): Initial parameters of the simulation + explicitly written tolerance at which the integrations were performed
+- [init_conditions_and_run_params.md](init_conditions_and_run_params.md): Initial parameters of the simulation + explicitly written tolerances at which the integrations were performed
 
 - [gauss_collocation_faster_output.md](gauss_collocation_faster_output.md): Captured output from gauss_collocation_faster.cpp. The run did not complete all scan points.
 
