@@ -39,6 +39,8 @@ $$
 
 - [rk4_faster.cpp](rk4_faster.cpp): Optimized version of rk4_adaptive.cpp using orbit-averaged QLT. The reported adaptive RK4 results were produced from this implementation (C++).
 
+- [init_conditions_and_run_params.md](init_conditions_and_run_params.md): Initial parameters of the simulation + explicitly written tolerance at which the integrations were performed
+
 - [gauss_collocation_faster_output.md](gauss_collocation_faster_output.md): Captured output from gauss_collocation_faster.cpp. The run did not complete all scan points.
 
 - [rk4_faster_output.md](rk4_faster_output.md): Captured output from rk4_faster.cpp. The run did not complete all scan points.
