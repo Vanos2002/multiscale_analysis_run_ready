@@ -36,16 +36,16 @@ $$
 
 - [gauss_collocation.cpp](gauss_collocation.cpp): Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with the implicit Gauss collocation method (C++).
 
-- gauss_collocation_faster.cpp: Optimized version of gauss_collocation.cpp using orbit-averaged QLT. The reported implicit Gauss collocation results were produced from this implementation (C++).
+- [gauss_collocation_faster.cpp](gauss_collocation_faster.cpp): Optimized version of gauss_collocation.cpp using orbit-averaged QLT. The reported implicit Gauss collocation results were produced from this implementation (C++).
 
-- rk4_adaptive.cpp: Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with an adaptive explicit Runge-Kutta 4 method (C++).
+- [rk4_adaptive.cpp](rk4_adaptive.cpp): Baseline comparison of Feireisl vs Tucker-Will convergence to the QLT reference at each epsilon value, integrated with an adaptive explicit Runge-Kutta 4 method (C++).
 
-- rk4_faster.cpp: Optimized version of rk4_adaptive.cpp using orbit-averaged QLT. The reported adaptive RK4 results were produced from this implementation (C++).
+- [rk4_faster.cpp](rk4_faster.cpp): Optimized version of rk4_adaptive.cpp using orbit-averaged QLT. The reported adaptive RK4 results were produced from this implementation (C++).
 
-- gauss_collocation_faster_output.md: Captured output from gauss_collocation_faster.cpp. The run did not complete all scan points.
+- [gauss_collocation_faster_output.md](gauss_collocation_faster_output.md): Captured output from gauss_collocation_faster.cpp. The run did not complete all scan points.
 
-- rk4_faster_output.md: Captured output from rk4_faster.cpp. The run did not complete all scan points.
+- [rk4_faster_output.md](rk4_faster_output.md): Captured output from rk4_faster.cpp. The run did not complete all scan points.
 
-- no_average_output.md: Captured output from rk4_adaptive.cpp, used as a non-orbit-averaged reference for comparison against rk4_faster_output.md. The run did not complete all scan points.
+- [no_average_output.md](no_average_output.md): Captured output from rk4_adaptive.cpp, used as a non-orbit-averaged reference for comparison against rk4_faster_output.md. The run did not complete all scan points.
 
-- summary.md: Summary of the changes applied to gauss_collocation.cpp and rk4_adaptive.cpp to produce gauss_collocation_faster.cpp and rk4_faster.cpp.
+- [summary.md](summary.md): Summary of the changes applied to gauss_collocation.cpp and rk4_adaptive.cpp to produce gauss_collocation_faster.cpp and rk4_faster.cpp.
