@@ -32,5 +32,18 @@ $$
 
 ## Description of each file
 
-gauss_collocation.cpp - Comparison of the Feireisl-TW convergence to QLT for a respective epsilon value, the integration is performed via the Implicit Gauss collocation method, implemented in C++
-gauss_collocation_faster.cpp - Fix of the "gauss_collocation.cpp" using the orbit-averaged QLT, the results of this work for the Implicit Gauss collocation method were obtained via this file, implemented in C++
+gauss_collocation.cpp - Comparison of the Feireisl-TW convergence to QLT for a respective epsilon value, the integration is performed via the implicit Gauss collocation method, implemented in C++
+
+gauss_collocation_faster.cpp - Fix of the "gauss_collocation.cpp" using the orbit-averaged QLT, the results of this work for the implicit Gauss collocation method were obtained via this file, implemented in C++
+
+rk4_adaptive.cpp - Comparison of the Feireisl-TW convergence to QLT for a respective epsilon value, the integration is performed via the explicit Runge Kutta 4th order adaptive method, implemented in C++
+
+rk4_faster.cpp - Fix of the "rk4_adaptive.cpp" using the orbit-averaged QLT, the results of this work for the explicit Runge Kutta 4th order adaptive method were obtained via this file, implemented in C++
+
+gauss_collocation_faster_output.md - copied output of the file "gauss_collocation_faster.cpp", note the output did not finish entirely
+
+rk4_faster_output.md - copied output of the file "rk4_faster.cpp", note the output did not finish entirely
+
+no_average_output.md - copied output of the file "rk4_adaptive.cpp" for comparison with rk4_faster_output.md, note the output did not finish entirely
+
+summary.md - description of the fixes that were implemented to the files "gauss_collocation.cpp" and "rk4_adaptive.cpp" to form "gauss_collocation_faster.cpp" and "rk4_faster.cpp"
