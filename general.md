@@ -3,12 +3,12 @@
 Formula used:
 
 $$
-\left|\frac{\phi_{method} - \phi_{QLT}}{\phi_{QLT}}\right|
+\alfa_{method} = \left|\frac{\phi_{method} - \phi_{QLT}}{\phi_{QLT}}\right|
 $$
 
 ## RK4 Adaptive
 
-| epsilon | abs relative Feireisl phi difference from phi_qlt | abs relative TW phi difference from phi_qlt | Winner |
+| $\epsilon$ | &\alfa_{Feireisl}$ | &\alfa_{TW}$ | Winner |
 |---:|---:|---:|:---|
 | 1.000000 | 9.8437079270e-01 | 9.8437079282e-01 | Feireisl |
 | 0.500000 | 6.4377337646e-01 | 6.4377337653e-01 | Feireisl |
@@ -19,7 +19,7 @@ $$
 
 ## Implicit Gauss Collocation
 
-| epsilon | abs relative Feireisl phi difference from phi_qlt | abs relative TW phi difference from phi_qlt | Winner |
+| $\epsilon$ | &\alfa_{Feireisl}$ | &\alfa_{TW}$ | Winner |
 |---:|---:|---:|:---|
 | 1.000000 | 9.8437081252e-01 | 9.8437081265e-01 | Feireisl |
 | 0.500000 | 6.4377399480e-01 | 6.4377399489e-01 | Feireisl |
