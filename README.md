@@ -18,6 +18,8 @@ $$
 | 0.031250 | 7.8915718944e-03 | 7.8915718911e-03 | TW |
 | 0.015625 | 1.9913630387e-03 | 1.9913630605e-03 | Feireisl |
 
+<img width="1500" height="825" alt="epsilon_winner_percent_plot" src="https://github.com/user-attachments/assets/792391f9-ee37-434d-b0d6-8c349d6d3a4c" />
+
 ## Implicit Gauss Collocation Integration Method
 
 | $\epsilon$ | Feireisl | TW | Winner |
@@ -28,6 +30,9 @@ $$
 | 0.125000 | 1.2603365354e-01 | 1.2603365351e-01 | TW |
 | 0.062500 | 3.1610512046e-02 | 3.1610512036e-02 | TW |
 | 0.031250 | 7.8880138610e-03 | 7.8880139116e-03 | Feireisl |
+
+<img width="1500" height="825" alt="epsilon_winner_percent_plot_method2" src="https://github.com/user-attachments/assets/0baf6db1-9ebb-4f3a-9323-a7e8deb87338" />
+
 
 ## Description of Each File
 
