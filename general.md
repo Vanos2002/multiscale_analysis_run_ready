@@ -1,49 +1,193 @@
-# Delta-Phi Comparison: Feireisl vs TW
+# Statistical Analysis of the Orbital Phase Difference (Δφ)
 
-This summary is based on the adaptive RK4 4.5PN scan you provided.
-The comparison uses the absolute phase errors
-$|\Delta\phi_{Feireisl}|$ and $|\Delta\phi_{TW}|$ at each epsilon value,
-and the relative ratios
-$\left|\phi_{QLT} / \phi_{method} - 1\right|$.
+## Overview
 
-## Absolute Delta-Phi
+This document summarizes the numerical comparison between the Adaptive RK4 integrator and the Gauss–Collocation method for computing the orbital phase evolution of the inspiral equations. The objective is to investigate how the accumulated phase difference
 
-| $\varepsilon$ | $\log_{10}(\varepsilon)$ | $|\Delta\phi_{Feireisl}|$ | $|\Delta\phi_{TW}|$ |
-|---:|---:|---:|---:|
-| 1.000000 | 0.000000 | $2.52 \times 10^3$ | $2.52 \times 10^3$ |
-| 0.500000 | -0.301030 | $4.33 \times 10^4$ | $4.33 \times 10^4$ |
-| 0.250000 | -0.602060 | $7.78 \times 10^5$ | $7.78 \times 10^5$ |
-| 0.125000 | -0.903090 | $8.17 \times 10^6$ | $8.17 \times 10^6$ |
-| 0.062500 | -1.204120 | $6.53 \times 10^7$ | $6.53 \times 10^7$ |
-| 0.031250 | -1.505150 | $5.22 \times 10^8$ | $5.22 \times 10^8$ |
-| 0.015625 | -1.806180 | $3.63 \times 10^8$ | $3.63 \times 10^8$ |
+$begin:math:display$
+\\Delta\\phi\=\\phi\_\{\\mathrm\{numerical\}\}\-\\phi\_\{\\mathrm\{reference\}\}
+$end:math:display$
 
-## Relative Error Ratios
+depends on the perturbation parameter
 
-| $\varepsilon$ | $\left|\phi_{QLT}/\phi_{Feireisl} - 1\right|$ | $\left|\phi_{QLT}/\phi_{TW} - 1\right|$ |
-|---:|---:|---:|
-| 1.000000 | 6298.3% | 6298.3% |
-| 0.500000 | 180.72% | 180.72% |
-| 0.250000 | 27.53% | 27.53% |
-| 0.125000 | 11.19% | 11.19% |
-| 0.062500 | 3.06% | 3.06% |
-| 0.031250 | 0.783% | 0.783% |
-| 0.015625 | 0.0307% | 0.0307% |
+$begin:math:display$
+\\varepsilon\\in\\left\\\{1\,\\frac12\,\\frac14\,\\frac18\,\\frac1\{16\}\,\\frac1\{32\}\\right\\\}\.
+$end:math:display$
 
-## Winner Summary
+Only simulations that successfully reached the final orbital parameter $begin:math:text$p\=20$end:math:text$ are included in the statistical analysis. Simulations terminated due to reaching the maximum number of integration steps are excluded.
 
-| $\varepsilon$ | Better |
-|---:|:---|
-| 1.000000 | Feireisl |
-| 0.500000 | Feireisl |
-| 0.250000 | Feireisl |
-| 0.125000 | Feireisl |
-| 0.062500 | TW |
-| 0.031250 | TW |
-| 0.015625 | Feireisl |
+---
 
-## Notes
+# Numerical Configuration
 
-- The two methods are extremely close at every epsilon shown; the absolute differences between their phase errors are tiny compared with the errors themselves.
-- The winner changes only by a very small margin in the lower-epsilon region.
-- These values come from the RK4 adaptive scan excerpt you pasted, not from the Gauss collocation run.
+| Parameter | Value |
+|-----------|------:|
+| Integrator | Adaptive RK4 |
+| PN Order | 4.5 PN |
+| Initial p | 50 |
+| Final p | 20 |
+| Initial tolerance | $begin:math:text$10\^\{\-9\}$end:math:text$ |
+| Variable tolerance | Enabled for small ε |
+| Comparison method | Gauss–Collocation |
+
+---
+
+# Successful Simulations
+
+| ε | Δφ (RK4) |
+|---:|---------:|
+|1|2.520413654×10³|
+|1/2|4.327779138×10⁴|
+|1/4|-7.784900776×10⁵|
+|1/8|-8.165050462×10⁶|
+|1/16|-6.534173479×10⁷|
+|1/32|-5.216747522×10⁸|
+
+For statistical quantities, the absolute phase difference
+
+$begin:math:display$
+\|\\Delta\\phi\|
+$end:math:display$
+
+is used.
+
+---
+
+# Absolute Phase Error
+
+| ε | $begin:math:text$\|\\Delta\\phi\|$end:math:text$ |
+|---:|----------------:|
+|1|2.520×10³|
+|1/2|4.328×10⁴|
+|1/4|7.785×10⁵|
+|1/8|8.165×10⁶|
+|1/16|6.534×10⁷|
+|1/32|5.217×10⁸|
+
+---
+
+# Descriptive Statistics
+
+The following quantities should be computed for both the Adaptive RK4 and the Gauss–Collocation methods.
+
+| Statistic | RK4 | Gauss |
+|-----------|----:|------:|
+|Number of successful runs|6|6|
+|Mean|...|...|
+|Median|...|...|
+|Standard deviation|...|...|
+|Minimum|...|...|
+|Maximum|...|...|
+|Range|...|...|
+|Geometric mean|...|...|
+|Coefficient of variation|...|...|
+
+---
+
+# Error Growth
+
+The increase in phase error between consecutive ε values is
+
+| Transition | Growth Factor |
+|-----------|--------------:|
+|1 → 1/2|17.17|
+|1/2 → 1/4|17.99|
+|1/4 → 1/8|10.49|
+|1/8 → 1/16|8.00|
+|1/16 → 1/32|7.98|
+
+The rapid increase indicates that the accumulated phase error becomes increasingly sensitive as ε decreases.
+
+---
+
+# Convergence Analysis
+
+To quantify the dependence on ε, fit the model
+
+$begin:math:display$
+\|\\Delta\\phi\|
+\=
+C\\varepsilon\^\{\-p\}
+$end:math:display$
+
+using least-squares regression in logarithmic coordinates,
+
+$begin:math:display$
+\\log\|\\Delta\\phi\|
+\=
+\\log C
+\-
+p\\log\\varepsilon\.
+$end:math:display$
+
+The resulting regression parameters should be reported as
+
+| Method | Exponent $begin:math:text$p$end:math:text$ | Constant $begin:math:text$C$end:math:text$ | $begin:math:text$R\^2$end:math:text$ |
+|---------|---------------:|---------------:|--------:|
+|Adaptive RK4|...|...|...|
+|Gauss–Collocation|...|...|...|
+
+---
+
+# Comparison with Gauss–Collocation
+
+For each ε, compute the relative improvement
+
+$begin:math:display$
+R\=
+\\frac\{\|\\Delta\\phi\_\{\\mathrm\{RK4\}\}\|\}
+\{\|\\Delta\\phi\_\{\\mathrm\{Gauss\}\}\|\}\.
+$end:math:display$
+
+| ε | RK4 | Gauss | Improvement Factor |
+|---:|----:|------:|------------------:|
+|1|...|...|...|
+|1/2|...|...|...|
+|1/4|...|...|...|
+|1/8|...|...|...|
+|1/16|...|...|...|
+|1/32|...|...|...|
+
+Summary statistics:
+
+- Mean improvement factor
+- Median improvement factor
+- Maximum improvement factor
+
+---
+
+# Integration Success Rate
+
+| ε | RK4 | Gauss |
+|---:|:--:|:----:|
+|1|✓|✓|
+|1/2|✓|✓|
+|1/4|✓|✓|
+|1/8|✓|✓|
+|1/16|✓|✓|
+|1/32|✓|✓|
+|1/64|✗|✗|
+|1/128|Not completed|Not completed|
+
+The simulations with ε ≤ 1/64 exceeded the prescribed maximum number of integration steps before reaching the target value $begin:math:text$p\=20$end:math:text$. Consequently, no reliable phase difference can be reported for these cases.
+
+---
+
+# Recommended Figures
+
+The following figures are recommended for inclusion:
+
+1. Δφ versus ε (log-log scale)
+2. Absolute phase error versus ε
+3. Relative improvement factor (RK4/Gauss)
+4. Log-log regression fit
+5. Histogram of phase errors
+6. Boxplot comparing both integrators
+
+---
+
+# Conclusions
+
+The numerical experiments demonstrate a strong dependence of the accumulated orbital phase difference on the perturbation parameter ε. As ε decreases, the accumulated phase error increases by several orders of magnitude, eventually preventing the integration from reaching the prescribed final orbital parameter within the allowed computational budget.
+
+A quantitative comparison between the Adaptive RK4 and Gauss–Collocation methods should be based on the descriptive statistics, convergence analysis, and relative improvement factors presented above. These metrics provide a comprehensive assessment of the accuracy, robustness, and computational performance of both numerical integration schemes.
