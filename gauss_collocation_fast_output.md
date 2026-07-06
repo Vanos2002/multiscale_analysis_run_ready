@@ -64,3 +64,14 @@ Mode: FULL ACCURACY
 [progress] eps index 6/9 (eps=3.1250e-02), local_tol=1.0e-06, local_phi_max_step=1.0e+10, local_max_steps=3.0e+08
     [init tilde JF] p_tilde=5.0000684039113523e+01, alpha_tilde=1.0005837064167035e-01, beta_tilde=9.9997510928541547e-02
     [target tilde JF] p_tilde_final=2.0000684707158754e+01 (from p_final=2.0000000000000000e+01)
+    [init tilde TW] p_tilde=5.000068e+01, alpha_tilde=1.000584e-01, beta_tilde=9.999751e-02
+    [target tilde TW] p_tilde_final=2.0000684707158754e+01 (from p_final=2.0000000000000000e+01)
+    [diag raw dp/dphi @start] QLT=-2.7441020935853756e-10, JF=-2.7227586797838125e-10, TW=-2.7227586797852632e-10
+    [diag eff dp/dphi @start] QLT=-2.7441020935853756e-10, JF=-6.8357053351064678e-04, TW=-6.8357053351064678e-04
+  eps=3.1250000000000000e-02 | phi_qlt=6.6094308274250153e+10, phi_F=6.6615661094051331e+10, phi_TW=6.6615661097392487e+10 | delta_phi_F=-5.2135281980117798e+08, delta_phi_TW=-5.2135282314233398e+08 | reached(QLT/F/TW)=Y/Y/Y
+    [progress] p_phys(QLT/F/TW)=2.0000000000000000e+01/2.0000000000000000e+01/2.0000000000000000e+01 | progress(QLT/F/TW)=1.0000000000000000e+00/1.0000000000000000e+00/1.0000000000000000e+00 | steps(QLT/F/TW)=4.1030902000000000e+07/4.1347502000000000e+07/4.1347502000000000e+07 | qlt_stop_reason=reached_target
+    [projection] est_steps_to_target(QLT/F/TW)=4.103090e+07/4.134750e+07/4.134750e+07
+    
+[progress] eps index 7/9 (eps=1.5625e-02), local_tol=1.0e-05, local_phi_max_step=2.0e+10, local_max_steps=5.0e+09
+    [init tilde JF] p_tilde=5.0000170926272716e+01, alpha_tilde=1.0001459329450486e-01, beta_tilde=9.9999377514087870e-02
+    [target tilde JF] p_tilde_final=2.0000170968025550e+01 (from p_final=2.0000000000000000e+01)
