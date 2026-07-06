@@ -1,10 +1,15 @@
 # Delta-Phi Comparison: Feireisl vs TW
 
-This summary is based on the adaptive RK4 4.5PN scan you provided.
-The comparison uses the absolute phase errors
-$|\Delta\phi_{Feireisl}|$ and $|\Delta\phi_{TW}|$ at each epsilon value,
+This summary is based on the adaptive RK4 4.5PN scan you provided.  
+It compares the absolute phase errors
+
+- $|\Delta\phi_{Feireisl}|$
+- $|\Delta\phi_{TW}|$
+
 and the relative ratios
-$\left|\phi_{QLT} / \phi_{method} - 1\right|$.
+
+- $\left|\phi_{QLT}/\phi_{Feireisl} - 1\right|$
+- $\left|\phi_{QLT}/\phi_{TW} - 1\right|$
 
 ## Results
 
@@ -20,6 +25,7 @@ $\left|\phi_{QLT} / \phi_{method} - 1\right|$.
 
 ## Notes
 
-- The two methods are extremely close at every epsilon shown; the absolute differences between their phase errors are tiny compared with the errors themselves.
-- The winner alternates only by a very small margin in the lower-epsilon region.
-- These values come from the RK4 adaptive scan excerpt you pasted, not from the Gauss collocation run.
+- The two methods are extremely close at every epsilon shown.
+- The difference between Feireisl and TW is tiny compared with the absolute phase errors themselves.
+- On these points, Feireisl is slightly closer at 5 values of epsilon, and TW at 2 values.
+- These values come from the RK4 adaptive scan excerpt provided, not from the Gauss collocation run.
