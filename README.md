@@ -1,14 +1,14 @@
 # Relative Phi Differences (to QLT)
 
+The subsequent tables compare the respective relative phi difference values for a given epsilon in the Feireisl and Tucker-Will scheme. Each table also includes a column labeled "Winner" that evaluates the smaller number between Feireisl and Tucker-Will (TW) results. Below each table is a column chart plot portraying the percentage of better convergence to QLT ("Lagrange planetary equations" via eq. (2.8) in [arXiv:2108.12210](https://arxiv.org/abs/2108.12210)) compared to the second method. We approach the problem with two ODE integration methods: an explicit Runge-Kutta 4th order adaptive method and an implicit Gauss collocation method.
+
+Initial parameters of the simulation + explicitly written tolerances at which the integrations were performed, are written in [init_conditions_and_run_params.md](init_conditions_and_run_params.md).
+
 Formula used:
 
 $$
 \alpha_{method} = \left|\frac{\phi_{method} - \phi_{QLT}}{\phi_{QLT}}\right|
 $$
-
-The subsequent tables compare the respective relative phi difference values for a given epsilon in the Feireisl and Tucker-Will scheme. Each table also includes a column labeled "Winner" that evaluates the smaller number between Feireisl and Tucker-Will (TW) results. Below each table is a column chart plot portraying the percentage of better convergence to QLT ("Lagrange planetary equations" via eq. (2.8) in [arXiv:2108.12210](https://arxiv.org/abs/2108.12210)) compared to the second method. We approach the problem with two ODE integration methods: an explicit Runge-Kutta 4th order adaptive method and an implicit Gauss collocation method.
-
-Initial parameters of the simulation + explicitly written tolerances at which the integrations were performed, are written in [init_conditions_and_run_params.md](init_conditions_and_run_params.md).
 
 ## Explicit RK4 Adaptive Integration Method
 
