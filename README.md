@@ -12,7 +12,7 @@ $$
 
 ## Explicit RK4 Adaptive Integration Method
 
-| $\epsilon$ | $\alpha$_Feireisl | TW | Winner |
+| $\epsilon$ | $\alpha$ (Feireisl) | $\alpha$ (TW) | Winner |
 |:---:|:---:|:---:|:---:|
 | 1.000000 | 9.8437079270e-01 | 9.8437079282e-01 | Feireisl |
 | 0.500000 | 6.4377337646e-01 | 6.4377337653e-01 | Feireisl |
