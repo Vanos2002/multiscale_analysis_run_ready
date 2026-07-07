@@ -26,7 +26,7 @@ $$
 
 ## Implicit Gauss Collocation Integration Method
 
-| $\epsilon$ | Feireisl | TW | Winner |
+| $\epsilon$ | $\alpha$ (Feireisl) | $\alpha$ (TW) | Winner |
 |:---:|:---:|:---:|:---:|
 | 1.000000 | 9.8437081252e-01 | 9.8437081265e-01 | Feireisl |
 | 0.500000 | 6.4377399480e-01 | 6.4377399489e-01 | Feireisl |
