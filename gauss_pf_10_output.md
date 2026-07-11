@@ -76,3 +76,14 @@ Target p_final=10 (deeper inspiral; monitor PN-stability warnings).
 [progress] eps index 7/9 (eps=1.5625e-02), local_tol=1.0e-05, local_phi_max_step=2.0e+10, local_max_steps=5.0e+09
     [init tilde JF] p_tilde=5.0000170926272716e+01, alpha_tilde=1.0001459329450486e-01, beta_tilde=9.9999377514087870e-02
     [target tilde JF] p_tilde_final=1.0000171037613599e+01 (from p_final=1.0000000000000000e+01)
+    [init tilde TW] p_tilde=5.000017e+01, alpha_tilde=1.000146e-01, beta_tilde=9.999938e-02
+    [target tilde TW] p_tilde_final=1.0000171037613599e+01 (from p_final=1.0000000000000000e+01)
+    [diag raw dp/dphi @start] QLT=-8.5764924723479973e-12, JF=-8.5597271199326276e-12, TW=-8.5597271199329120e-12
+    [diag eff dp/dphi @start] QLT=-8.5764924723479973e-12, JF=-1.7089973880501930e-04, TW=-1.7089973880501930e-04
+  eps=1.5625000000000000e-02 | phi_qlt=2.3123018726826284e+12, phi_F=2.3168473616753096e+12, phi_TW=2.3168473698630308e+12 | delta_phi_F=-4.5454889926811523e+09, delta_phi_TW=-4.5454971804023438e+09 | reached(QLT/F/TW)=Y/Y/Y
+    [progress] p_phys(QLT/F/TW)=1.0000000000000000e+01/1.0000000000000000e+01/1.0000000000000000e+01 | progress(QLT/F/TW)=1.0000000000000000e+00/1.0000000000000000e+00/1.0000000000000000e+00 | steps(QLT/F/TW)=2.6701968100000000e+08/2.6752899900000000e+08/2.6752900200000000e+08 | qlt_stop_reason=reached_target
+    [projection] est_steps_to_target(QLT/F/TW)=2.670197e+08/2.675290e+08/2.675290e+08
+    
+[progress] eps index 8/9 (eps=7.8125e-03), local_tol=3.0e-05, local_phi_max_step=5.0e+12, local_max_steps=1.0e+10
+    [init tilde JF] p_tilde=5.0000042726349079e+01, alpha_tilde=1.0000364836325527e-01, beta_tilde=9.9999844364894147e-02
+    [target tilde JF] p_tilde_final=1.0000042733307881e+01 (from p_final=1.0000000000000000e+01)
